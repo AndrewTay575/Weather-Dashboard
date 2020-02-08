@@ -1,0 +1,26 @@
+.col {
+    padding: 5px;
+}
+
+.card {
+    width: 100%;
+    background-color: lightblue;
+}
+
+.search-section {
+    height: 100%;
+}
+
+.container {
+    margin-top: 5px;
+}
+
+.dayDisplay {
+    margin: 5px;
+    width: fit-content;
+    
+}
+
+.body {
+    color: beige;
+}

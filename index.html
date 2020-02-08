@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets\style.css">
+    <link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <nav class = "navbar navbar-expand-lg navbar-dark bg-dark">
+        <span class = "navbar-brand mx-auto h1">Weather Dashboard</span>
+
+    </nav>
+
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-sm-3">
+                <div class = "card search-section">
+                    <div class = "card-body">
+                        <label>Search For City:</label>
+                        <div class = "input-group mb-3">
+                            <input id = "city-search" type = "text" class = "form-control" placeholder = "Orlando">
+                            <div class = "input-group-append">
+                                <button id = "getWeather" class = "btn-success" type = "submit">
+                                    <i id = "getweatherIcon" class = "fas fa-search" aria-hidden = "true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id = "past-cities"></div>
+                    </div>
+                </div>
+            </div>
+            <div class = "col-sm-9">
+                <div class = "row">
+                    <div class = "card">
+                        <div class = "card-body" id = "current-weather">
+                            <div class = "city"></div>
+                            <div class = "weathericon"></div>
+                            <div class = "temp"></div>
+                            <div class = "humidity"></div>
+                            <div class = "windspeed"></div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class = "row" id = "forecast"> 5 Day Forcast
+                    <br>
+                    
+
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href = "assets\DateFormat.js"></link>
+    <script>
+
+        // This function gets me the UV index using lat and lon passed to it from the searchcityweather function
+        function getUVIndex(lat, lon) {
+
+            var UVqueryURL = "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=f97dc0c76838152ccccbda66f22dabd4&lat=" + lat + "&lon=" + lon + "&cnt=1" 
+
+            $.ajax({
+                url: UVqueryURL,
+                method: "GET"
+            })
+
+            .then(function (response) {
+                console.log(response);
+                console.log(response[0].value);
+                var UVspan = $("<span>");
+                UVspan.addClass("badge");
+                var UVI = response[0].value;
+                UVspan.text("UV index: " + UVI);
+                // These statements determine the severity of the UVI, and color code the relevent display accordingly
+                if (UVI <= 2){
+                    UVspan.addClass("badge-success");
+                    $("#current-weather").append(UVspan);
+
+                }
+                else if (UVI > 2 && UVI <= 7) {
+                    UVspan.addClass("badge-warning");
+                    $("#current-weather").append(UVspan);
+
+                }
+                else if (UVI >= 8) {
+                    UVspan.addClass("badge-danger");
+                    $("#current-weather").append(UVspan);
+                }
+
+            })
+
+
+        }
+
+
+        // This function gets me all the relevent data for the present day's weather and displays it
+        function searchCityWeather(city) {
+            
+            var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&APPID=f97dc0c76838152ccccbda66f22dabd4";
+            
+
+            $.ajax({
+                url: queryURL,
+                
+                method: "GET"
+
+            })
+                .then(function (response) {
+                    //console.log(response);
+                    
+                    
+                    $(".city").html("<h1>" + response.name + "<h1>");
+                   
+                   
+                    $(".temp").text("Temperature: " + response.main.temp + " deg");
+                    $(".humidity").text("Humidity: " + response.main.humidity + "%");
+                    $(".windspeed").text("Wind Speed: " + response.wind.speed + " MPH");
+                    
+
+                    var lat = response.coord.lat;
+                    var lon = response.coord.lon;
+                    getUVIndex(lat, lon);
+                })
+            
+            
+            
+        }
+
+        // This function gets me the relevant data for the next 5 days forecast
+        function searchCityForecast(city) {
+
+            var forecastqueryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&APPID=f97dc0c76838152ccccbda66f22dabd4"
+
+
+            $.ajax({
+                 url: forecastqueryURL,
+                 method: "GET",
+                 
+                
+             })
+                 .then(function (response){
+                     console.log(response.list[0]);
+                     console.log(response);
+                     
+                     for (var i = 0; i < response.list.length;i++) {
+                         
+                         if (response.list[i].dt_txt.indexOf("15:00:00") !== -1) {
+                            //  console.log(response.list[i].main.temp);
+                            //  console.log(response.list[i].main.humidity);
+                            //  console.log(response.list[i].dt);
+                             var firstDiv = $("<div>");
+                             firstDiv.addClass("card  dayDisplay");
+                             var dayDiv = $("<div>");
+                             dayDiv.addClass("card-body");
+                             var tempP = $("<p>");
+                             var humP = $("<p>");
+                             tempP.addClass("card-text");
+                             humP.addClass("card-text");
+                             tempP.text("Temp: " + response.list[i].main.temp + " deg");
+                             humP.text("Humidity: " + response.list[i].main.humidity + " %");
+                             dayDiv.append(tempP, humP);
+                             
+                             //dayDiv.text("Temperature: " + response.list[i].main.temp)
+                            firstDiv.append(dayDiv);
+                            $("#forecast").append(firstDiv);
+
+                             
+
+                            
+
+
+                              var unixTime = response.list[i].dt;
+                             
+                              date = new Date(unixTime * 1000);
+                            
+                              console.log(date);
+                         }
+                         
+                         
+                     }
+                    
+                 });
+        }
+
+        // This click event clears previous data on screen and calls the  necessary functions to display data
+
+        $("#getWeather").on("click", function(event){
+            event.preventDefault();
+            $(".city").empty();
+            $(".temp").empty();
+            $(".humidity").empty();
+            $(".windspeed").empty();
+            $("#forecast").empty();
+            $(".badge").empty();
+
+            var city = $("#city-search").val().trim();
+
+            searchCityWeather(city);
+            searchCityForecast(city);
+            
+        })
+        
+    </script>
+    
+</body>
+</html>
