@@ -66,7 +66,7 @@
         // This function gets me the UV index using lat and lon passed to it from the searchcityweather function
         function getUVIndex(lat, lon) {
 
-            var UVqueryURL = "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=f97dc0c76838152ccccbda66f22dabd4&lat=" + lat + "&lon=" + lon + "&cnt=1" 
+            var UVqueryURL = "https://api.openweathermap.org/data/2.5/uvi/forecast?appid=f97dc0c76838152ccccbda66f22dabd4&lat=" + lat + "&lon=" + lon + "&cnt=1" 
 
             $.ajax({
                 url: UVqueryURL,
