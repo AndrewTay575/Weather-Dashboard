@@ -63,7 +63,7 @@
     </div>
 
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href = "assets\DateFormat.js"></link>
     <script>
 
@@ -106,17 +106,17 @@
         }
 
         function prevSearches(city) {
-
+            //var oldCity = city;
             var newBtn = $("<button>").addClass("btn btn-secondary");
             newBtn.text(city);
-            newBtn.attr("id", city );
+            newBtn.attr("name", city );
            
             $("#btn-group").prepend(newBtn);
             
 
         } 
 
-        $().on("click", function(event, city) {
+        $(this).on("click", function(event, city) {
                 event.preventDefault();
                 $(".city").empty();
                 $(".temp").empty();
@@ -124,7 +124,7 @@
                 $(".windspeed").empty();
                 $("#forecast").empty();
                 $(".badge").empty();
-                searchCityWeather(city);
+                searchCityWeather($(this).attr("name"));
                 
         })
 
