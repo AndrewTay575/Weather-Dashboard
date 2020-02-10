@@ -74,8 +74,8 @@
             })
 
             .then(function (response) {
-                console.log(response);
-                console.log(response[0].value);
+                //console.log(response);
+                //console.log(response[0].value);
                 var UVspan = $("<span>");
                 UVspan.addClass("badge");
                 var UVI = response[0].value;
@@ -140,7 +140,7 @@
             })
                 .then(function (response) {
                     //console.log(response);
-                    console.log(response.dt);
+                    //console.log(response.dt);
                     var today = response.dt;
                     $(".city").html("<h1>" + response.name + "<h1>");
                     $(".day").html("<h3>"+ moment(today, "X").format("dddd") + "<h3>")
@@ -172,8 +172,8 @@
                 
              })
                  .then(function (response){
-                     console.log(response.list[0]);
-                     console.log(response);
+                     //console.log(response.list[0]);
+                     //console.log(response);
                      
                      for (var i = 0; i < response.list.length;i++) {
                          
@@ -210,7 +210,7 @@
                              
                               date = new Date(unixTime * 1000);
                             
-                              console.log(date);
+                              //console.log(date);
                          }
                          
                          
