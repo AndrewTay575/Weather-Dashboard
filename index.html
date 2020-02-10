@@ -128,7 +128,7 @@
         // This function gets me all the relevent data for the present day's weather and displays it
         function searchCityWeather(city) {
             
-            var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&APPID=f97dc0c76838152ccccbda66f22dabd4";
+            var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&APPID=f97dc0c76838152ccccbda66f22dabd4";
             
 
             $.ajax({
@@ -161,7 +161,7 @@
         // This function gets me the relevant data for the next 5 days forecast
         function searchCityForecast(city) {
 
-            var forecastqueryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&APPID=f97dc0c76838152ccccbda66f22dabd4"
+            var forecastqueryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&APPID=f97dc0c76838152ccccbda66f22dabd4"
 
 
             $.ajax({
