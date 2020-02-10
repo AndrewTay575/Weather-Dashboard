@@ -43,6 +43,7 @@
                     <div class = "card">
                         <div class = "card-body" id = "current-weather">
                             <div class = "city"></div>
+                            <div class = "day"></div>
                             <div class = "weathericon"></div>
                             <div class = "temp"></div>
                             <div class = "humidity"></div>
@@ -138,10 +139,10 @@
             })
                 .then(function (response) {
                     //console.log(response);
-                    
-                    
+                    console.log(response.dt);
+                    var today = response.dt;
                     $(".city").html("<h1>" + response.name + "<h1>");
-                   
+                    $(".day").html("<h3>"+ moment(today, "X").format("dddd") + "<h3>")
                    
                     $(".temp").text("Temperature: " + response.main.temp + " deg");
                     $(".humidity").text("Humidity: " + response.main.humidity + "%");
@@ -192,7 +193,7 @@
                              humP.text("Humidity: " + response.list[i].main.humidity + " %");
                              icon.attr("src","http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png");
                              timeDay.addClass("card-title");
-                             timeDay.text(moment(nowTime, "X").format("MMM Do YY"));
+                             timeDay.text(moment(nowTime, "X").format("dddd"));
                              dayDiv.append(timeDay, icon, tempP, humP);
                              
                              
